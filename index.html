@@ -1,242 +1,383 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>BitaHeart 2.0</title>
-        <meta charset="UTF-8">
-        <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
-        }
-        .form-container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-        }
-        .toolbar {
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 5px 10px;
-            margin-right: 5px;
-            cursor: pointer;
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button:hover {
-            background-color: #e0e0e0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input, select {
-            width: 99%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        .submit-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-size: 16px;
-        }
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
-        select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: white;
-    cursor: pointer;
-}
-
-select:focus {
-    outline: none;
-    border-color: #4CAF50; /* Borde verde al enfocar */
-}
-    .toolbar-select {
-        padding: 5px 10px;
-        margin-right: 5px;
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        cursor: pointer;
-    }
-    
-    .toolbar-select:hover,
-    .color-picker-label:hover {
-        background-color: #e0e0e0;
-    }
-     #reporte {
-        min-height: 200px;
-        border: 1px solid #ddd;
-        padding: 10px;
-        margin-bottom: 15px;
-        background-color: white;
-        position: relative;
-    }
-    
-    /* Estilo del placeholder */
-    #reporte:empty::before {
-        content: attr(data-placeholder);
-        color: #999;
-        position: absolute;
-        pointer-events: none;
-    }
-    .toolbar {
+<head>
+    <title>Mini Dovera</title>
+    <style>
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #2a2a2a 100%);
+    margin: 0;
+    padding: 0;
     display: flex;
-    align-items: center; /* Alinea verticalmente los elementos */
-    gap: 5px; /* Espacio entre botones y el select */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #f5f5f5;
 }
-  #reporte {
-      border: 1px solid #ccc;
-      padding: 8px;
-      min-height: 150px;
-      width: 100%;
-      box-sizing: border-box;
-  }
 
-  .separator {
-      margin: 0 5px;
-  }
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 25px;
+}
 
-  
-    
+.payment-box {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    box-shadow: inset 0 0 15px rgba(0, 150, 255, 0.1),
+    0 0 20px rgba(0, 100, 255, 0.15),
+    0 12px 30px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 180, 255, 0.3);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo img {
+    max-width: 240px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 150, 200, 0.4));
+}
+
+.logo h2 {
+    color: #00d8ff;
+    font-size: 25px;
+    margin-top: 20px;
+    letter-spacing: 1.2px;
+    text-shadow: 0 2px 4px rgba(0, 180, 255, 0.3);
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab {
+    padding: 14px 28px;
+    cursor: pointer;
+    background: linear-gradient(to bottom, rgba(0, 100, 150, 0.2) 0%, rgba(0, 60, 100, 0.15) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #c0c0c0;
+    font-weight: 600;
+    outline: none;
+    flex: 1;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-radius: 8px 8px 0 0;
+    margin: 0 6px;
+    letter-spacing: 0.8px;
+    font-size: 15px;
+}
+
+.tab.active {
+    background: linear-gradient(135deg, #00a8ff 0%, #0066ff 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 160, 255, 0.5);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.tab-content {
+    display: none;
+    animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #9fdfff;
+    letter-spacing: 0.6px;
+    font-size: 15px;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(0, 30, 50, 0.3);
+    border: 1px solid rgba(0, 150, 200, 0.2);
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #ffffff;
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+input::placeholder {
+    color: rgba(180, 180, 180, 0.7);
+}
+
+input:focus, select:focus {
+    border-color: #00a8ff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 168, 255, 0.3);
+    background: rgba(0, 60, 90, 0.4);
+}
+
+.btn {
+    background: linear-gradient(135deg, #00a8ff 0%, #0055ff 100%);
+    color: white;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease-out;
+    letter-spacing: 0.8px;
+    margin-top: 15px;
+    box-shadow: 0 4px 20px rgba(0, 150, 255, 0.4);
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, #00b4f0 0%, #0060e0 100%);
+    box-shadow: 0 8px 25px rgba(0, 150, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.security-note {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(180, 220, 255, 0.7);
+    border-top: 1px solid rgba(0, 150, 200, 0.2);
+    padding-top: 18px;
+    line-height: 1.6;
+}
+
+.payment-methods {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.payment-method {
+    border: 1px solid rgba(0, 150, 200, 0.15);
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    flex: 1 0 calc(33% - 15px);
+    min-width: 110px;
+    text-align: center;
+    background: rgba(0, 80, 120, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+.payment-method:hover {
+    border-color: #00b4ff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(0, 150, 255, 0.25);
+    background: rgba(0, 100, 150, 0.3);
+}
+
+.payment-method img {
+    height: 32px;
+    width: auto;
+    filter: brightness(0.9);
+    transition: filter 0.3s;
+}
+
+.payment-method:hover img {
+    filter: brightness(1.2) drop-shadow(0 2px 4px rgba(0, 150, 255, 0.3));
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300c6ff'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    background-size: 14px;
+}
+
+/* Efecto de onda al hacer clic en botones */
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(0, 150, 255, 0.4);
+}
+
+/* Efecto de brillo en elementos activos */
+.tab.active:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    position: relative;
+    bottom: -12px;
+    border-radius: 2px;
+}
+
+#game:required:invalid {
+    color: #a0a0a0; /* Color gris */
+}
+
+select:required:invalid {
+    color: #909090;
+}
+
+select option:not([value=""]) {
+    color: #ffffff;
+    background: #2a2a2a;
+}
+
+select:valid, select:focus, select option:checked {
+    color: #ffffff !important;
+}
     </style>
-    </head>
-    <body>
-        <div class="form-group">
-            <h1>📋Reporte de turno</h1>
-            <form id="reportForm">
-                <label for="nombre">Supervisor de turno</label>
-                <select id="nombre" required>
-                    <option value="">--Selecciona un supervisor--</option>
-                    <option value="Brandy Hora">Brandy Hora</option>
-                    <option value="Nicole Tello">Nicole Tello</option>
-                    <option value="Micaela Albareda">Micaela Albareda</option>
-                    <option value="Amelia Ureta">Amelia Ureta</option>
-                    <option value="Micaela Zevallos">Micaela Zevallos</option>
-                    <option value="Julio Santana">Julio Santana</option>
-                    <option value="Luis Pinedo">Luis Pinedo</option>
-                </select>
-            </div>
+</head>
+<body>
+    <div class="container">
+        <div class="payment-box">
+        <div class="logo">
+            <img src="Dovera.png" alt="Dovera Logo" width="200" height="200">
+            <h2>Pay to PlayPlayPlay</h2>
+    </div>
 
-        <div class="form-group">
-            <label for="fecha">Fecha:</label>
-            <input type="date" id="fecha" required>
-        </div>
+    <div class="tabs">
+                <button class="tab active" onclick="openTab('deposit')">Deposit</button>
+                <button class="tab" onclick="openTab('withdraw')">CashOut</button>
+    </div>
 
-        <div class="form-group">
-            <label for="turno">Turno:</label>
-            <select id="turno" required>
-                <option value="">Seleccione...</option>
-                <option value="Mañana">Mañana</option>
-                <option value="Tarde">Tarde</option>
-                <option value="Noche">Noche</option>
-            </select>
-        </div>
-        
-        <div class="form-group">
-            <label>Reporte detallado</label>
+    <div id="deposit" class="tab-content active">
+        <form id="depositForm">
+            <div class="form-group" >
+                <label for="username">Username</label>
+                <input type="text" id="username" name="Username" placeholder="Your username" required>
+    </div>
 
-                <div class="toolbar">
-                    <button type="button" onclick="formatText('bold')"><b>Negrita</b></button>
-                    <button type="button" onclick="formatText('italic')"><i>Cursiva</i></button>
-                    <button type="button" onclick="formatText('underline')"><u>Subrayado</u></button>
-                    <span class="separator">|</span>
-                    <select id="fontSelector" onchange="changeFont()" class="toolbar" title="Fuente">
-            <option value="">Fuente...</option>
-            <option value="Arial">Arial</option>
-            <option value="Verdana">Verdana</option>
-            <option value="Georgia">Georgia</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Courier New">Courier New</option>
+
+    <div class="form-group">
+        <label for="game">Game</label>
+        <select id="game" name="game" required>
+        <option value="" disabled selected hidden>Your game</option>
+        <option value="Ultra Panda">Ultra Panda</option>
+        <option value="VBlink">VBlink</option>
+        <option value="Golden Treasure">Golden Treasure</option>
+        <option value="EGames">EGames</option>
+        <option value="Juwa">Juwa</option>
+        <option value="Game Vault">Game Vault</option>
         </select>
-        
+    </div>
+
+    <div class="form-group">
+        <label>Payment method:</label>
+        <select id="payment-method" name="payment-method" required>
+            <option value="" disabled selected hidden>Choose your payment method</option>
+            <option value="CashApp">CashApp</option>
+            <option value="Zelle">Zelle</option>
+            <option value="LockPay">LockPay</option>
+            <option value="Banxa">Banxa</option>
+            <option value="Helio">Helio</option>
+            <option value="Bitcoin">Bitcoin</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Your email" required>
+    </div>
+
+    <div class="form-group">
+        <label for="amount">Amount to deposit:</label>
+        <input type="number" id="amount" name="amount" min="5" placeholder="0.00" required>
+    </div>
+    
+    <button type="submit" class="btn">Pay Now!</button>
+
+    <div class="security-note">
+        <p>🔒Secured payment processing</p>
+    </div>
+    </form>
+    </div>
+
+
+    <div id="CashOut" class="tab-content">
+        <form id="CashOutForm">
+            <div class="form-group">
+                <label for="CashOut_email" >Email:</label>
+                <input type="email" id="CashOut_email" name="CashOut_email" placeholder="Input your email" required>
             </div>
 
             <div class="form-group">
-            <div id="reporte" contenteditable="true" data-placeholder="Escribe tu reporte aquí"></div>
-        <div id="charCount" style="color: #666; font-size: 12px; margin-top: 5px;">0/200 caracteres</div>
-        <div id="errorMsg" style="color: red; display: none;font-size: 12px; margin-top: 5px;">Debes escribir al menos 200 caracteres</div>
-        </div>
+                <label for="CashOut_method">CashOut method:</label>
+                <select id="CashOut_method" name="CashOut_method" required>
+                    <option value=""disabled selected hidden>Choose your cashout method</option>
+                    <option value="ACH">ACH</option>
+                    <option value="CashApp">CashApp</option>
+                    <option value="PayPal">PayPal</option>
+                    <option value="Crypto">Crypto</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="CashOut_amount">CashOut amount:</label>
+                <input type="number" id="CashOut_amount" name="CashOut_amount" min="100" placeholder="Input the amount you want to cashout" required>
+            </div>
+
+            <button type="submit" class="btn">Request CashOut</button>
+
+            <div class="security-note">
+                <p>⏰Cashouts are not instant and can take up to 24 hours</p>
+            </div>
+        </form>
+    </div>
+ <script>
+    function openTab(tabName) {
+        // Oculta todos los contenidos de pestaña
+        const tabContents = document.getElementsByClassName('tab-content');
+        for (let i = 0; i < tabContents.length; i++) {
+            tabContents[i].classList.remove('active');
+        }
         
-
-
-        <button type="submit" class="submit-btn">Guardar reporte</button>
-    </form>
-        </div>
-        <script>
-function formatText(command) {
-    document.execCommand(command, false, null);
-}
-
-// Contador de caracteres en tiempo real
-document.getElementById('reporte').addEventListener('input', function() {
-    const text = this.innerText.trim();
-    const count = text.length;
-    const counter = document.getElementById('charCount');
-    
-    if (counter) {
-        counter.textContent = `${count}/200 caracteres`;
-        counter.style.color = count >= 200 ? '#4CAF50' : (count > 0 ? '#FF9800' : '#666');
-    }
-});
-
-// Validación al enviar el formulario
-document.getElementById('reportForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const reporte = document.getElementById('reporte');
-    const text = reporte.innerText.trim();
-    const MIN_CHARS = 200;
-
-    // Validación de longitud
-    if (text.length < MIN_CHARS) {
-        alert(`Debes escribir al menos ${MIN_CHARS} caracteres. Actual: ${text.length}`);
-        reporte.focus();
+        // Remueve la clase active de todas las pestañas
+        const tabs = document.getElementsByClassName('tab');
+        for (let i = 0; i < tabs.length; i++) {
+            tabs[i].classList.remove('active');
+        }
         
-        // Efecto visual
-        reporte.style.border = "2px solid red";
-        setTimeout(() => reporte.style.border = "1px solid #ddd", 2000);
-        return false;
+        // Muestra la pestaña actual y marca el botón como activo
+        document.getElementById(tabName === 'withdraw' ? 'CashOut' : tabName).classList.add('active');
+        event.currentTarget.classList.add('active');
     }
-
-    // Procesamiento si pasa la validación
-    const reporteHTML = reporte.innerHTML;
-    const reporteTexto = text;
     
-    console.log("Reporte (HTML):", reporteHTML);
-    console.log("Reporte (Texto):", reporteTexto);
+    // Manejadores de envío de formularios
+    document.getElementById('depositForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Deposit request submitted successfully.');
+    });
     
-    alert("Reporte guardado correctamente");
-    
-    // Aquí iría tu lógica para enviar al servidor
-    // Ejemplo: enviarDatos(reporteHTML, reporteTexto);
-});
-
-function changeFont() {
-    const font = document.getElementById("fontSelector").value;
-    if (font) document.execCommand("fontName", false, font);
-}   
-        </script>
-
-    </body>
+    document.getElementById('CashOutForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Cashout request submitted. You will receive a confirmation email.');
+    });
+    </script>
 
 
 
@@ -247,13 +388,4 @@ function changeFont() {
 
 
 
-
-
-
-
-
-
-
-
-
-</html>
+</body>
