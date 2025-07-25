@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>BitaHeart 2.0</title>
+        <meta charset="UTF-8">
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .toolbar {
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 99%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #4CAF50; /* Borde verde al enfocar */
+}
+    .toolbar-select {
+        padding: 5px 10px;
+        margin-right: 5px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .toolbar-select:hover,
+    .color-picker-label:hover {
+        background-color: #e0e0e0;
+    }
+     #reporte {
+        min-height: 200px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin-bottom: 15px;
+        background-color: white;
+        position: relative;
+    }
+    
+    /* Estilo del placeholder */
+    #reporte:empty::before {
+        content: attr(data-placeholder);
+        color: #999;
+        position: absolute;
+        pointer-events: none;
+    }
+    .toolbar {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los elementos */
+    gap: 5px; /* Espacio entre botones y el select */
+}
+  #reporte {
+      border: 1px solid #ccc;
+      padding: 8px;
+      min-height: 150px;
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  .separator {
+      margin: 0 5px;
+  }
+
+  
+    
+    </style>
+    </head>
+    <body>
+        <div class="form-group">
+            <h1>📋Reporte de turno</h1>
+            <form id="reportForm">
+                <label for="nombre">Supervisor de turno</label>
+                <select id="nombre" required>
+                    <option value="">--Selecciona un supervisor--</option>
+                    <option value="Brandy Hora">Brandy Hora</option>
+                    <option value="Nicole Tello">Nicole Tello</option>
+                    <option value="Micaela Albareda">Micaela Albareda</option>
+                    <option value="Amelia Ureta">Amelia Ureta</option>
+                    <option value="Micaela Zevallos">Micaela Zevallos</option>
+                    <option value="Julio Santana">Julio Santana</option>
+                    <option value="Luis Pinedo">Luis Pinedo</option>
+                </select>
+            </div>
+
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" required>
+        </div>
+
+        <div class="form-group">
+            <label for="turno">Turno:</label>
+            <select id="turno" required>
+                <option value="">Seleccione...</option>
+                <option value="Mañana">Mañana</option>
+                <option value="Tarde">Tarde</option>
+                <option value="Noche">Noche</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Reporte detallado</label>
+
+                <div class="toolbar">
+                    <button type="button" onclick="formatText('bold')"><b>Negrita</b></button>
+                    <button type="button" onclick="formatText('italic')"><i>Cursiva</i></button>
+                    <button type="button" onclick="formatText('underline')"><u>Subrayado</u></button>
+                    <span class="separator">|</span>
+                    <select id="fontSelector" onchange="changeFont()" class="toolbar" title="Fuente">
+            <option value="">Fuente...</option>
+            <option value="Arial">Arial</option>
+            <option value="Verdana">Verdana</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+        </select>
+        
+            </div>
+
+            <div class="form-group">
+            <div id="reporte" contenteditable="true" data-placeholder="Escribe tu reporte aquí"></div>
+        <div id="charCount" style="color: #666; font-size: 12px; margin-top: 5px;">0/200 caracteres</div>
+        <div id="errorMsg" style="color: red; display: none;font-size: 12px; margin-top: 5px;">Debes escribir al menos 200 caracteres</div>
+        </div>
+        
+
+
+        <button type="submit" class="submit-btn">Guardar reporte</button>
+    </form>
+        </div>
+        <script>
+function formatText(command) {
+    document.execCommand(command, false, null);
+}
+
+// Contador de caracteres en tiempo real
+document.getElementById('reporte').addEventListener('input', function() {
+    const text = this.innerText.trim();
+    const count = text.length;
+    const counter = document.getElementById('charCount');
+    
+    if (counter) {
+        counter.textContent = `${count}/200 caracteres`;
+        counter.style.color = count >= 200 ? '#4CAF50' : (count > 0 ? '#FF9800' : '#666');
+    }
+});
+
+// Validación al enviar el formulario
+document.getElementById('reportForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const reporte = document.getElementById('reporte');
+    const text = reporte.innerText.trim();
+    const MIN_CHARS = 200;
+
+    // Validación de longitud
+    if (text.length < MIN_CHARS) {
+        alert(`Debes escribir al menos ${MIN_CHARS} caracteres. Actual: ${text.length}`);
+        reporte.focus();
+        
+        // Efecto visual
+        reporte.style.border = "2px solid red";
+        setTimeout(() => reporte.style.border = "1px solid #ddd", 2000);
+        return false;
+    }
+
+    // Procesamiento si pasa la validación
+    const reporteHTML = reporte.innerHTML;
+    const reporteTexto = text;
+    
+    console.log("Reporte (HTML):", reporteHTML);
+    console.log("Reporte (Texto):", reporteTexto);
+    
+    alert("Reporte guardado correctamente");
+    
+    // Aquí iría tu lógica para enviar al servidor
+    // Ejemplo: enviarDatos(reporteHTML, reporteTexto);
+});
+
+function changeFont() {
+    const font = document.getElementById("fontSelector").value;
+    if (font) document.execCommand("fontName", false, font);
+}   
+        </script>
+
+    </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
